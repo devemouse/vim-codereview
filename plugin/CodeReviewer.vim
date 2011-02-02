@@ -4,24 +4,28 @@
 " Last change:	Oct 20 2005
 " Version:     0.2.0
 
-if exists( "g:loaded_CodeReviewer" ) 
-  finish 
-endif 
-let g:loaded_CodeReviewer=1 
+if exists("g:loaded_CodeReviewer")
+   finish
+endif
+let g:loaded_CodeReviewer = 1 
 
-" Set file-type to review
-au BufNewFile,BufRead *.rev  setf rev
+
 
 " Hard-settings:
 let g:CodeReviewer_defects = '\[\(Defect\|Remark\|Question\)\]'
 let g:CodeReviewer_defaultDefect = "[Defect]"
 let g:CodeReviewer_lineContinuation = '\\'
 
-if ( !hasmapto( '<Plug>AddComment', 'n' ) ) 
-  nmap <unique> <leader>ic <Plug>AddComment 
+"if ( !hasmapto( '<Plug>AddComment', 'n' ) ) 
+  "nmap <unique> <leader>ic <Plug>AddComment 
+"endif 
+
+if ( !hasmapto( '<Plug>AddCommentWithLine', 'n' ) ) 
+  nmap <unique> <leader>iC <Plug>AddCommentWithLine
 endif 
 
 nmap <Plug>AddComment :call <SID>SavePosition()<cr>:call <SID>OpenReviewFile()<cr>:call <SID>InsertComment()<cr>A 
+nmap <Plug>AddCommentWithLine yy:call <SID>SavePosition()<cr>:call <SID>OpenReviewFile()<cr>:call <SID>InsertComment()<cr>A<BS> <<<Esc>pkJA >>: 
 
 com! CheckReview execute "cfile " . g:CodeReviewer_reviewFile 
 com! SortReviewFile :call <SID>SortReviewFile()
@@ -78,7 +82,9 @@ endfunction
 function! s:InsertComment() 
   let commentLine = g:CodeReviewer_fileName . ":" 
   let commentLine = commentLine . g:CodeReviewer_lineNumber . ": " 
-  let commentLine = commentLine . g:CodeReviewer_reviewer . " - " 
+  if exists("g:CodeReviewer_reviewer")
+     let commentLine = " " . commentLine . g:CodeReviewer_reviewer . " - " 
+  endif
   let commentLine = commentLine . g:CodeReviewer_defaultDefect . " "
 
   $put=commentLine 

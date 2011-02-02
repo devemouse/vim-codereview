@@ -7,7 +7,11 @@
 " All characters except space and tab
 syn match rev_Description "[^ |	]*" contains=NONE
 exe 'syn match rev_Defect "'. g:CodeReviewer_defects . '" contained'
+
+if exists("g:CodeReviewer_reviewer")
 exe "syn keyword rev_Initial " . g:CodeReviewer_reviewer . " contained"
+endif
+
 exe 'syn match rev_Source "^.\{-\}' . g:CodeReviewer_defects . '" contains=rev_Defect,rev_Initial'
 
 hi link rev_Description Special
