@@ -59,4 +59,4 @@ func! Sort(cmp) range
 endfunc
 "
 " Sort takes a range of lines and sorts them.
-command! -nargs=0 -range Sort <line1>,<line2>call Sort("Strcmp")
+command! -nargs=0 -range Sort <line1>,<line2>call Sort("StrCmp")

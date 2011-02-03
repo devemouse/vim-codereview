@@ -10,22 +10,13 @@ endif
 let g:loaded_CodeReviewer = 1 
 
 
-
 " Hard-settings:
 let g:CodeReviewer_defects = '\[\(Defect\|Remark\|Question\)\]'
 let g:CodeReviewer_defaultDefect = "[Defect]"
 let g:CodeReviewer_lineContinuation = '\\'
 
-"if ( !hasmapto( '<Plug>AddComment', 'n' ) ) 
-  "nmap <unique> <leader>ic <Plug>AddComment 
-"endif 
-
-if ( !hasmapto( '<Plug>AddCommentWithLine', 'n' ) ) 
-  nmap <unique> <leader>iC <Plug>AddCommentWithLine
-endif 
-
-nmap <Plug>AddComment :call <SID>SavePosition()<cr>:call <SID>OpenReviewFile()<cr>:call <SID>InsertComment()<cr>A 
-nmap <Plug>AddCommentWithLine yy:call <SID>SavePosition()<cr>:call <SID>OpenReviewFile()<cr>:call <SID>InsertComment()<cr>A<BS> <<<Esc>pkJA >>: 
+nmap <leader>cri :call codereviewer#InsertComment()<cr>A 
+nmap <leader>crI yy:call codereviewer#InsertComment()<cr>A<BS> <<<Esc>pkJA >>: 
 
 com! CheckReview execute "cfile " . g:CodeReviewer_reviewFile 
 com! SortReviewFile :call <SID>SortReviewFile()
@@ -74,39 +65,6 @@ function! s:SortReviewFile()
   silent! %s///g
 endfunction
 
-function! s:SavePosition() 
-  let g:CodeReviewer_fileName = expand( "%" )
-  let g:CodeReviewer_lineNumber = line( "." ) 
-endfunction
-
-function! s:InsertComment() 
-  let commentLine = g:CodeReviewer_fileName . ":" 
-  let commentLine = commentLine . g:CodeReviewer_lineNumber . ": " 
-  if exists("g:CodeReviewer_reviewer")
-     let commentLine = " " . commentLine . g:CodeReviewer_reviewer . " - " 
-  endif
-  let commentLine = commentLine . g:CodeReviewer_defaultDefect . " "
-
-  $put=commentLine 
-endfunction 
-
-function! s:OpenReviewFile() 
-  call OpenOrSwitch( g:CodeReviewer_reviewFile ) 
-endfunction 
- 
-" If a window for the filename specified exists, switches to it (uses :sb); otherwise, opens a new 
-" window with that file name (uses :sp). 
-function! OpenOrSwitch( theFile ) 
-  let openingCommand = "sb" 
-
-  if ( bufwinnr( a:theFile ) < 0 ) 
-    let openingCommand = "sp" 
-  endif 
-
-  execute openingCommand . " " . a:theFile 
-endfunction 
-" Need this option for the above function to work properly
-set switchbuf=useopen
 
 " Function for use with SortR()
 func! DefectCmp(str1, str2)
