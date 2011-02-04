@@ -1,7 +1,7 @@
-*CodeReviewer.txt*  A tool for code reviews Last Change: Oct 20 2005
+*CodeReviewer.txt*  A tool for code reviews Last Change: 2011-02-04
 
 Code Reviewer                                         *CodeReviewer* *review*
-                              Version 0.2.0
+                              Version 0.3.0
 
 If you do code reviews on a regular basis, this script could be of
 help to you. This tip is about -
@@ -22,6 +22,7 @@ This plugin is only available if 'compatible' is not set.
 ------------------------------------------------------------------------------
 INSTALLATION                                       *codereviewer_installation*
 
+TODO: add pathogen
 Typically one would put CodeReview.vim into the .vim/plugin directory
 (vimfiles\plugin for Windows) where it becomes automatically available
 for use.
@@ -76,7 +77,9 @@ the correct relative paths in the review comments file
 
 Now you are ready to start the review. To insert review comments in
 the currently viewed file, use: >
- \ic
+
+                <leader>ic
+
 This should put a line like shown below in the review file,
    ../inc/file.h:20: KG - [Defect]
 and leave you in insert mode after "[Defect]". You can now type your comments
@@ -144,6 +147,9 @@ then the sorting algorithm fails.
 -------------------------------------------------------------------------------
 CHANGE LOG                                             *codereviewer_changelog*
 
+0.3.0  - Moved most functions to autoload for faster startup.
+         Redefined mappings
+         Documentation updated
 0.2.0  - Included SortR function for platform independent sorting
          Fixed syntax issues
 0.1.0  - Added multi-line comment support, and fixed sorting issues
@@ -152,7 +158,8 @@ CHANGE LOG                                             *codereviewer_changelog*
 -------------------------------------------------------------------------------
 CREDITS                                                  *codereviewer_credits*
 
-Author: Karthick Gururaj <karthickgururaj at yahoo dot com>
+Original author: Karthick Gururaj <karthickgururaj at yahoo dot com>
+Maintainer since 2011-02-01: Dariusz Synowiec <devemouse@gmail.com>
 
 Thanks to Salman Halim for providing an implementation that automates
 the step between saving position in the file being reviewed and
